@@ -1,8 +1,7 @@
 package com.DevBD1.LiteWorlds.cmds;
 
 import com.DevBD1.LiteWorlds.Main;
-import com.DevBD1.LiteWorlds.cmds.sub.CreateWorldSubcommand;
-import com.DevBD1.LiteWorlds.cmds.sub.TeleportWorldSubcommand;
+import com.DevBD1.LiteWorlds.cmds.sub.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,7 +14,10 @@ public class LiteWorldCommand implements CommandExecutor {
 
     public LiteWorldCommand(Main plugin) {
         registerSubcommand(new CreateWorldSubcommand(plugin));
-        registerSubcommand(new TeleportWorldSubcommand());
+        registerSubcommand(new TeleportWorldSubcommand(plugin));
+        registerSubcommand(new ListWorldsSubcommand(plugin));
+        //registerSubcommand(new LoadWorldSubcommand(plugin));
+        //registerSubcommand(new UnloadWorldSubcommand(plugin));
     }
 
     private void registerSubcommand(SubCommand subcommand) {
