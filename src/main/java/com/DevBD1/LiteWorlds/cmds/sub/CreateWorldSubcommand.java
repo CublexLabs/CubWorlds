@@ -8,15 +8,10 @@ import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CreateWorldSubcommand implements SubCommand {
-
     private final Main plugin;
 
     public CreateWorldSubcommand(Main plugin) {
@@ -35,7 +30,7 @@ public class CreateWorldSubcommand implements SubCommand {
 
     @Override
     public String getUsage() {
-        return "/liteworld create <name> <type: NORMAL|VOID|NETHER|END>";
+        return "/liteworld create <name> <type: NORMAL|VOID|NETHER|END> [prevent-grief:true|false]";
     }
 
     @Override
@@ -47,6 +42,7 @@ public class CreateWorldSubcommand implements SubCommand {
 
         String name = args[0];
         String type = args[1].toUpperCase();
+        boolean preventGrief = args.length >= 3 && args[2].equalsIgnoreCase("prevent-grief:true");
 
         WorldCreator creator = new WorldCreator(name);
 
@@ -68,30 +64,29 @@ public class CreateWorldSubcommand implements SubCommand {
         Bukkit.getScheduler().runTask(plugin, () -> {
             Bukkit.createWorld(creator);
             sender.sendMessage("World '" + name + "' created with type '" + type + "'.");
-
-            // Persist to config
-            FileConfiguration config = plugin.getConfig();
-            List<Map<?, ?>> worlds = config.getMapList("worlds");
-
-            boolean exists = worlds.stream().anyMatch(m -> name.equalsIgnoreCase((String) m.get("name")));
-            if (!exists) {
-                Map<String, Object> entry = Map.of(
-                        "name", name,
-                        "type", type,
-                        "prevent-grief", false
-                );
-                worlds.add(entry);
-                config.set("worlds", worlds);
-                plugin.saveConfig();
-            }
         });
 
+        FileConfiguration config = plugin.getConfig();
+        List<Map<String, Object>> worlds = (List<Map<String, Object>>) config.getList("worlds");
+        if (worlds == null) worlds = new ArrayList<>();
+
+        Map<String, Object> entry = new HashMap<>();
+        entry.put("name", name);
+        entry.put("type", type);
+        entry.put("prevent-grief", preventGrief);
+        worlds.add(entry);
+
+        config.set("worlds", worlds);
+        plugin.saveConfig();
     }
 
     @Override
     public List<String> tabComplete(CommandSender sender, String[] args) {
         if (args.length == 2) {
             return Arrays.asList("NORMAL", "VOID", "NETHER", "END");
+        }
+        if (args.length == 3) {
+            return Arrays.asList("prevent-grief:true", "prevent-grief:false");
         }
         return Collections.emptyList();
     }
