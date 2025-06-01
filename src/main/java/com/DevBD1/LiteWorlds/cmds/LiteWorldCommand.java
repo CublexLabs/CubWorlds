@@ -1,23 +1,24 @@
 package com.DevBD1.LiteWorlds.cmds;
 
+import com.DevBD1.LiteWorlds.Main;
+import com.DevBD1.LiteWorlds.cmds.sub.CreateWorldSubcommand;
+import com.DevBD1.LiteWorlds.cmds.sub.TeleportWorldSubcommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class CommandManager implements CommandExecutor {
-    private final Map<String, Subcommand> subcommands = new HashMap<>();
+public class LiteWorldCommand implements CommandExecutor {
+    private final Map<String, SubCommand> subcommands = new HashMap<>();
 
-    public CommandManager() {
-        registerSubcommand(new CreateWorldSubcommand());
+    public LiteWorldCommand(Main plugin) {
+        registerSubcommand(new CreateWorldSubcommand(plugin));
         registerSubcommand(new TeleportWorldSubcommand());
     }
 
-    private void registerSubcommand(Subcommand subcommand) {
+    private void registerSubcommand(SubCommand subcommand) {
         subcommands.put(subcommand.getName().toLowerCase(), subcommand);
     }
 
@@ -28,7 +29,7 @@ public class CommandManager implements CommandExecutor {
             return true;
         }
 
-        Subcommand sub = subcommands.get(args[0].toLowerCase());
+        SubCommand sub = subcommands.get(args[0].toLowerCase());
         if (sub != null) {
             sub.execute(sender, shiftArgs(args));
         } else {
@@ -43,7 +44,7 @@ public class CommandManager implements CommandExecutor {
         return shifted;
     }
 
-    public Map<String, Subcommand> getSubcommands() {
+    public Map<String, SubCommand> getSubcommands() {
         return subcommands;
     }
 }

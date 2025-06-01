@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class TabCompleter implements TabCompleter{
+public class LiteWorldTabCompleter implements TabCompleter {
 
     private final LiteWorldCommand command;
 
@@ -19,7 +19,7 @@ public class TabCompleter implements TabCompleter{
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
-        Map<String, Subcommand> subcommands = command.getSubcommands();
+        Map<String, SubCommand> subcommands = command.getSubcommands();
 
         if (args.length == 1) {
             List<String> matches = new ArrayList<>();
@@ -31,7 +31,7 @@ public class TabCompleter implements TabCompleter{
             return matches;
         }
 
-        Subcommand sub = subcommands.get(args[0].toLowerCase());
+        SubCommand sub = subcommands.get(args[0].toLowerCase());
         if (sub != null) {
             return sub.tabComplete(sender, shiftArgs(args));
         }

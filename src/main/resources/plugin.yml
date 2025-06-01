@@ -2,5 +2,13 @@ name: LiteWorlds
 version: '1.0.0'
 main: com.DevBD1.LiteWorlds.Main
 api-version: '1.21'
+description: Lightweight custom world manager with void world support and grief prevention.
 authors: [ DevBD1 ]
 website: https://cublex.net
+commands:
+  liteworld:
+    description: Manage and teleport to custom worlds
+    usage: /liteworld <subcommand>
+    aliases: [lw]
+permissions: {}
+load: POSTWORLD

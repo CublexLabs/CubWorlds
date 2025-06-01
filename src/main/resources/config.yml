@@ -1,0 +1,8 @@
+worlds:
+  - name: world_spawn
+    type: VOID
+    prevent-grief: true
+
+  - name: world_test
+    type: NORMAL
+    prevent-grief: false
