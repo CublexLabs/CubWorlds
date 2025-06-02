@@ -4,6 +4,7 @@ import com.DevBD1.LiteWorlds.cmds.LiteWorldCommand;
 import com.DevBD1.LiteWorlds.cmds.LiteWorldTabCompleter;
 import com.DevBD1.LiteWorlds.listener.GriefPreventionListener;
 import com.DevBD1.LiteWorlds.generator.VoidWorldGenerator;
+import com.DevBD1.LiteWorlds.listener.WorldAccessListener;
 import org.bukkit.Bukkit;
 import org.bukkit.WorldCreator;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -50,6 +51,8 @@ public class Main extends JavaPlugin {
         LiteWorldCommand command = new LiteWorldCommand(this);
         getCommand("liteworld").setExecutor(command);
         getCommand("liteworld").setTabCompleter(new LiteWorldTabCompleter(command));
+
+        getServer().getPluginManager().registerEvents(new WorldAccessListener(this), this);
     }
 
     @Override

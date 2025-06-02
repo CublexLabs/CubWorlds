@@ -1,9 +1,11 @@
+fallback-world: world_spawn
 worlds:
   - name: world_spawn
     type: VOID
     prevent-grief: true
+    permission: liteworld.access.world_spawn
 
   - name: world_test
     type: NORMAL
     prevent-grief: false
-fallback-world: world_spawn
+    permission: liteworld.access.world_test
