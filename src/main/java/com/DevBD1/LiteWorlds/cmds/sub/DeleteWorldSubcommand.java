@@ -67,7 +67,11 @@ public class DeleteWorldSubcommand implements SubCommand {
         }
 
         try {
-            deleteRecursively(worldFolder.toPath());
+            //deleteRecursively(worldFolder.toPath());
+            File deletedFolder = new File(Bukkit.getWorldContainer(), "recycle_bin/" + worldName);
+            deletedFolder.getParentFile().mkdirs();
+            Files.move(worldFolder.toPath(), deletedFolder.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
             sender.sendMessage("World folder '" + worldName + "' has been deleted successfully.");
         } catch (IOException e) {
             sender.sendMessage("Failed to delete world folder '" + worldName + "': " + e.getMessage());
