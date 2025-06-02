@@ -18,6 +18,7 @@ public class LiteWorldCommand implements CommandExecutor {
         registerSubcommand(new ListWorldsSubcommand(plugin));
         registerSubcommand(new LoadWorldSubcommand(plugin));
         registerSubcommand(new UnloadWorldSubcommand(plugin));
+        registerSubcommand(new DeleteWorldSubcommand(plugin));
     }
 
     private void registerSubcommand(SubCommand subcommand) {
