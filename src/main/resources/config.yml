@@ -6,3 +6,4 @@ worlds:
   - name: world_test
     type: NORMAL
     prevent-grief: false
+fallback-world: world_spawn

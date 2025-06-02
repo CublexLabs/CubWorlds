@@ -5,6 +5,8 @@ import com.DevBD1.LiteWorlds.cmds.SubCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 
 import java.util.Collections;
 import java.util.List;
@@ -46,8 +48,24 @@ public class UnloadWorldSubcommand implements SubCommand {
             return;
         }
 
+        FileConfiguration config = plugin.getConfig();
+        String fallbackName = config.getString("fallback-world", "world");
+        World fallback = Bukkit.getWorld(fallbackName);
+
+        if (fallback == null) {
+            sender.sendMessage("Fallback world '" + fallbackName + "' is not loaded. Cannot relocate players.");
+            return;
+        }
+
+        int relocated = 0;
+        for (Player player : world.getPlayers()) {
+            player.teleport(fallback.getSpawnLocation());
+            relocated++;
+        }
+
         if (Bukkit.unloadWorld(world, true)) {
-            sender.sendMessage("World '" + worldName + "' has been unloaded.");
+            sender.sendMessage("World '" + worldName + "' has been unloaded. " +
+                    relocated + " player(s) relocated to '" + fallbackName + "'.");
         } else {
             sender.sendMessage("Failed to unload world '" + worldName + "'.");
         }
