@@ -50,7 +50,7 @@ public class WorldAccessListener implements Listener {
             String perm = (String) entry.get("permission");
 
             if (name == null || !name.equalsIgnoreCase(world.getName())) continue;
-            if (perm != null && !player.hasPermission(perm)) {
+            if (perm != null && !perm.isBlank() && !player.hasPermission(perm))
                 player.teleport(fallback.getSpawnLocation());
                 break;
             }
