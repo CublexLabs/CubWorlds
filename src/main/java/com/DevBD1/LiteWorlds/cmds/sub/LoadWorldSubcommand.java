@@ -44,15 +44,17 @@ public class LoadWorldSubcommand implements SubCommand {
 
         String worldName = args[0];
         FileConfiguration config = plugin.getConfig();
-        List<Map<?, ?>> worlds = config.getMapList("worlds");
+        List<Map<String, Object>> worlds = (List<Map<String, Object>>) (List<?>) config.getMapList("worlds");
 
         for (Map<?, ?> entry : worlds) {
-            String name = (String) entry.get("name");
+            Map<String, Object> typedEntry = (Map<String, Object>) entry;
+            String name = (String) typedEntry.get("name");
             if (name.equalsIgnoreCase(worldName)) {
-                @SuppressWarnings("unchecked")
-                Map<String, Object> typedEntry = (Map<String, Object>) entry;
+                if (Bukkit.getWorld(name) != null) {
+                    sender.sendMessage("World '" + name + "' is already loaded.");
+                    return;
+                }
                 String type = ((String) typedEntry.getOrDefault("type", "NORMAL")).toUpperCase();
-
 
                 WorldCreator creator = new WorldCreator(name);
                 switch (type) {
