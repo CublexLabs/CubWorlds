@@ -43,7 +43,7 @@ Commands | Description | Permission | Group
 Works great out of the box. 
 Optional [Corlex](https://github.com/DevBD1/Corlex) support for multilingual messages (fallback to YAML if not installed)
 
-####🧾 Example config.yml
+#### 🧾 Example config.yml
 ```
 fallback-world: world
 worlds:
