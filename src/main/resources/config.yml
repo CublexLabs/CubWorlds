@@ -3,9 +3,40 @@ worlds:
   - name: world_spawn
     type: VOID
     prevent-grief: true
-    permission: liteworld.access.world_spawn
+    permission: cubworlds.access.world_spawn
 
   - name: world_test
     type: NORMAL
     prevent-grief: false
-    permission: liteworld.access.world_test
+    permission: cubworlds.access.world_test
+commands:
+  version:
+    aliases: [ver]
+    permissions:
+      - CubWorlds.admin.*
+  reload:
+    aliases: [rl]
+    permissions:
+      - CubWorlds.admin.*
+  create:
+    aliases: [cr]
+    permissions:
+      - CubWorlds.admin.*.*
+  delete:
+    aliases: [del]
+    permissions:
+      - CubWorlds.admin.*.*
+  list:
+    aliases: [ls]
+    permissions:
+      - CubWorlds.admin.*.*
+  load:
+    permissions:
+      - CubWorlds.admin.*.*
+  unload:
+    permissions:
+      - CubWorlds.admin.*.*
+  teleport:
+    aliases: [tp]
+    permissions:
+      - CubWorlds.admin.*

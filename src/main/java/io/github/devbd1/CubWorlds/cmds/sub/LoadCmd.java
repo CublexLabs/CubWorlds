@@ -1,8 +1,9 @@
-package com.DevBD1.LiteWorlds.cmds.sub;
+package io.github.devbd1.CubWorlds.cmds.sub;
 
-import com.DevBD1.LiteWorlds.Main;
-import com.DevBD1.LiteWorlds.cmds.SubCommand;
-import com.DevBD1.LiteWorlds.generator.VoidWorldGenerator;
+import io.github.devbd1.CubWorlds.Main;
+import io.github.devbd1.CubWorlds.cmds.CmdConfig;
+import io.github.devbd1.CubWorlds.cmds.CmdInterface;
+import io.github.devbd1.CubWorlds.generator.VoidWorldGenerator;
 import org.bukkit.Bukkit;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
@@ -13,16 +14,27 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class LoadWorldSubcommand implements SubCommand {
+public class LoadCmd implements CmdInterface {
+    String CMD_NAME = "load";
     private final Main plugin;
 
-    public LoadWorldSubcommand(Main plugin) {
+    public LoadCmd(Main plugin) {
         this.plugin = plugin;
     }
 
     @Override
     public String getName() {
-        return "load";
+        return CMD_NAME;
+    }
+
+    @Override
+    public List<String> getAliases() {
+        return CmdConfig.getAliases(CMD_NAME);
+    }
+
+    @Override
+    public List<String> getPermissions() {
+        return CmdConfig.getPermissions(CMD_NAME);
     }
 
     @Override
@@ -32,14 +44,14 @@ public class LoadWorldSubcommand implements SubCommand {
 
     @Override
     public String getUsage() {
-        return "/liteworld load <worldName>";
+        return "/cubworlds load <worldName>";
     }
 
     @Override
-    public void execute(CommandSender sender, String[] args) {
+    public boolean execute(CommandSender sender, String[] args) {
         if (args.length < 1) {
             sender.sendMessage("Usage: " + getUsage());
-            return;
+            return false;
         }
 
         String worldName = args[0];
@@ -52,7 +64,7 @@ public class LoadWorldSubcommand implements SubCommand {
             if (name.equalsIgnoreCase(worldName)) {
                 if (Bukkit.getWorld(name) != null) {
                     sender.sendMessage("World '" + name + "' is already loaded.");
-                    return;
+                    return false;
                 }
                 String type = ((String) typedEntry.getOrDefault("type", "NORMAL")).toUpperCase();
 
@@ -70,11 +82,12 @@ public class LoadWorldSubcommand implements SubCommand {
 
                 Bukkit.createWorld(creator);
                 sender.sendMessage("World '" + worldName + "' has been loaded.");
-                return;
+                return false;
             }
         }
 
         sender.sendMessage("World '" + worldName + "' not found in config.");
+        return false;
     }
 
     @Override

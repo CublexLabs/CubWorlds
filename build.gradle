@@ -3,8 +3,16 @@ plugins {
     id("xyz.jpenilla.run-paper") version "2.3.1"
 }
 
-group = 'com.DevBD1'
-version = '1.0.0'
+def versionFile = file("version.txt")
+if (versionFile.exists()) {
+    version = versionFile.text.trim()
+} else {
+    versionFile.text = project.version?.toString() ?: "0.0.1"
+    version = versionFile.text.trim()
+}
+println "[CubWorlds] Using project.version = ${version}"
+
+group = 'io.github.devbd1'
 
 repositories {
     mavenCentral()
@@ -50,10 +58,50 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 processResources {
-    def props = [version: version]
-    inputs.properties props
     filteringCharset 'UTF-8'
     filesMatching('plugin.yml') {
-        expand props
+        // Use project.version directly; no separate props map
+        expand(version: project.version.toString())
     }
+    doFirst {
+        println "[CubDialogs] processResources expanding plugin.yml with version=${project.version}"
+    }
+}
+
+tasks.register("printJdk") {
+    doLast {
+        println "Running with: " + System.getProperty("java.version")
+    }
+}
+
+tasks.register("bumpVersion") {
+    doLast {
+        if (!versionFile.exists()) {
+            throw new GradleException("version.txt not found.")
+        }
+        def currentVersion = versionFile.text.trim()
+        def releaseType = project.hasProperty("releaseType") ? project.releaseType : "patch"
+        def (major, minor, patch) = currentVersion.tokenize('.').collect { it.toInteger() }
+
+        switch (releaseType) {
+            case "major":
+                major++; minor = 0; patch = 0; break
+            case "minor":
+                minor++; patch = 0; break
+            case "patch":
+                patch++; break
+            default:
+                throw new GradleException("Unknown releaseType: $releaseType. Use major, minor or patch.")
+        }
+
+        def newVersion = "${major}.${minor}.${patch}"
+        versionFile.text = newVersion
+        // Keep current build consistent with bumped value
+        project.version = newVersion
+        println "🔁 Version bumped: $currentVersion → $newVersion"
+    }
+}
+
+tasks.register("bumpAndBuild") {
+    dependsOn "bumpVersion", "build"
 }

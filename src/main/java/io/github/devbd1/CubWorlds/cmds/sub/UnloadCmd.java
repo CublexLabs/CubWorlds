@@ -1,26 +1,37 @@
-package com.DevBD1.LiteWorlds.cmds.sub;
+package io.github.devbd1.CubWorlds.cmds.sub;
 
-import com.DevBD1.LiteWorlds.Main;
-import com.DevBD1.LiteWorlds.cmds.SubCommand;
+import io.github.devbd1.CubWorlds.Main;
+import io.github.devbd1.CubWorlds.cmds.CmdConfig;
+import io.github.devbd1.CubWorlds.cmds.CmdInterface;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
-import java.util.Collections;
 import java.util.List;
 
-public class UnloadWorldSubcommand implements SubCommand {
+public class UnloadCmd implements CmdInterface {
+    String CMD_NAME = "unload";
     private final Main plugin;
 
-    public UnloadWorldSubcommand(Main plugin) {
+    public UnloadCmd(Main plugin) {
         this.plugin = plugin;
     }
 
     @Override
     public String getName() {
-        return "unload";
+        return CMD_NAME;
+    }
+
+    @Override
+    public List<String> getAliases() {
+        return CmdConfig.getAliases(CMD_NAME);
+    }
+
+    @Override
+    public List<String> getPermissions() {
+        return CmdConfig.getPermissions(CMD_NAME);
     }
 
     @Override
@@ -30,14 +41,14 @@ public class UnloadWorldSubcommand implements SubCommand {
 
     @Override
     public String getUsage() {
-        return "/liteworld unload <worldName>";
+        return "/cubworlds unload <worldName>";
     }
 
     @Override
-    public void execute(CommandSender sender, String[] args) {
+    public boolean execute(CommandSender sender, String[] args) {
         if (args.length < 1) {
             sender.sendMessage("Usage: " + getUsage());
-            return;
+            return false;
         }
 
         String worldName = args[0];
@@ -45,7 +56,7 @@ public class UnloadWorldSubcommand implements SubCommand {
 
         if (world == null) {
             sender.sendMessage("World '" + worldName + "' is not currently loaded.");
-            return;
+            return false;
         }
 
         FileConfiguration config = plugin.getConfig();
@@ -54,7 +65,7 @@ public class UnloadWorldSubcommand implements SubCommand {
 
         if (fallback == null) {
             sender.sendMessage("Fallback world '" + fallbackName + "' is not loaded. Cannot relocate players.");
-            return;
+            return false;
         }
 
         int relocated = 0;
@@ -69,6 +80,7 @@ public class UnloadWorldSubcommand implements SubCommand {
         } else {
             sender.sendMessage("Failed to unload world '" + worldName + "'.");
         }
+        return false;
     }
 
     @Override

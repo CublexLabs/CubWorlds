@@ -1,4 +1,4 @@
-package com.DevBD1.LiteWorlds.generator;
+package io.github.devbd1.CubWorlds.generator;
 
 import org.bukkit.World;
 import org.bukkit.generator.ChunkGenerator;

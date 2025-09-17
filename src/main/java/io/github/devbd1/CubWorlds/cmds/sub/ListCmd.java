@@ -1,7 +1,8 @@
-package com.DevBD1.LiteWorlds.cmds.sub;
+package io.github.devbd1.CubWorlds.cmds.sub;
 
-import com.DevBD1.LiteWorlds.Main;
-import com.DevBD1.LiteWorlds.cmds.SubCommand;
+import io.github.devbd1.CubWorlds.Main;
+import io.github.devbd1.CubWorlds.cmds.CmdConfig;
+import io.github.devbd1.CubWorlds.cmds.CmdInterface;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -9,16 +10,27 @@ import org.bukkit.configuration.file.FileConfiguration;
 import java.util.List;
 import java.util.Map;
 
-public class ListWorldsSubcommand implements SubCommand {
+public class ListCmd implements CmdInterface {
+    String CMD_NAME = "list";
     private final Main plugin;
 
-    public ListWorldsSubcommand(Main plugin) {
+    public ListCmd(Main plugin) {
         this.plugin = plugin;
     }
 
     @Override
     public String getName() {
-        return "list";
+        return CMD_NAME;
+    }
+
+    @Override
+    public List<String> getAliases() {
+        return CmdConfig.getAliases(CMD_NAME);
+    }
+
+    @Override
+    public List<String> getPermissions() {
+        return CmdConfig.getPermissions(CMD_NAME);
     }
 
     @Override
@@ -28,17 +40,17 @@ public class ListWorldsSubcommand implements SubCommand {
 
     @Override
     public String getUsage() {
-        return "/liteworld list";
+        return "/cubworlds list";
     }
 
     @Override
-    public void execute(CommandSender sender, String[] args) {
+    public boolean execute(CommandSender sender, String[] args) {
         FileConfiguration config = plugin.getConfig();
         List<Map<?, ?>> worlds = config.getMapList("worlds");
 
         if (worlds.isEmpty()) {
             sender.sendMessage("No worlds registered in config.");
-            return;
+            return false;
         }
 
         sender.sendMessage("Registered worlds:");
@@ -47,6 +59,7 @@ public class ListWorldsSubcommand implements SubCommand {
             boolean isLoaded = Bukkit.getWorld(name) != null;
             sender.sendMessage("- " + name + " (" + (isLoaded ? "LOADED" : "UNLOADED") + ")");
         }
+        return true;
     }
 
     @Override

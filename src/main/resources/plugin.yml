@@ -1,14 +1,17 @@
-name: LiteWorlds
-version: '1.0.0'
-main: com.DevBD1.LiteWorlds.Main
+name: CubWorlds
+version: ${version}
+main: io.github.devbd1.CubWorlds.Main
 api-version: '1.21'
 description: Lightweight custom world manager with void world support and grief prevention.
 authors: [ DevBD1 ]
-website: https://cublex.net
-commands:
-  liteworld:
-    description: Manage and teleport to custom worlds
-    usage: /liteworld <subcommand>
-    aliases: [lw]
-permissions: {}
+website: https://labs.cublex.net
 load: POSTWORLD
+softdepend:
+  - Cub
+  - CubDialogs
+commands:
+  CubWorlds:
+    description: Manage the custom worlds
+    usage: /CubWorlds <subcommand>
+    aliases: [cw]
+permissions: {}

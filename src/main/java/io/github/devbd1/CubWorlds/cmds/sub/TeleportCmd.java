@@ -1,25 +1,36 @@
-package com.DevBD1.LiteWorlds.cmds.sub;
+package io.github.devbd1.CubWorlds.cmds.sub;
 
-import com.DevBD1.LiteWorlds.cmds.SubCommand;
-import com.DevBD1.LiteWorlds.Main;
+import io.github.devbd1.CubWorlds.cmds.CmdConfig;
+import io.github.devbd1.CubWorlds.cmds.CmdInterface;
+import io.github.devbd1.CubWorlds.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Collections;
 import java.util.List;
 
-public class TeleportWorldSubcommand implements SubCommand {
+public class TeleportCmd implements CmdInterface {
+    String CMD_NAME = "teleport";
     private final Main plugin;
 
-    public TeleportWorldSubcommand(Main plugin) {
+    public TeleportCmd(Main plugin) {
         this.plugin = plugin;
     }
 
     @Override
     public String getName() {
-        return "teleport";
+        return CMD_NAME;
+    }
+
+    @Override
+    public List<String> getAliases() {
+        return CmdConfig.getAliases(CMD_NAME);
+    }
+
+    @Override
+    public List<String> getPermissions() {
+        return CmdConfig.getPermissions(CMD_NAME);
     }
 
     @Override
@@ -29,30 +40,31 @@ public class TeleportWorldSubcommand implements SubCommand {
 
     @Override
     public String getUsage() {
-        return "/liteworld teleport <worldName>";
+        return "/cubworlds teleport <worldName>";
     }
 
     @Override
-    public void execute(CommandSender sender, String[] args) {
+    public boolean execute(CommandSender sender, String[] args) {
         if (!(sender instanceof Player player)) {
             sender.sendMessage("Only players can teleport.");
-            return;
+            return false;
         }
 
         if (args.length < 1) {
             sender.sendMessage("Usage: " + getUsage());
-            return;
+            return false;
         }
 
         String worldName = args[0];
         World world = Bukkit.getWorld(worldName);
         if (world == null) {
             sender.sendMessage("World is not loaded. Load it first using /liteworld load " + worldName);
-            return;
+            return false;
         }
 
         player.teleport(world.getSpawnLocation());
         sender.sendMessage("Teleported to world: " + worldName);
+        return false;
     }
 
     @Override

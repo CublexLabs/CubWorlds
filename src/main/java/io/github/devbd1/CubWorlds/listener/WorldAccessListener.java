@@ -1,6 +1,6 @@
-package com.DevBD1.LiteWorlds.listener;
+package io.github.devbd1.CubWorlds.listener;
 
-import com.DevBD1.LiteWorlds.Main;
+import io.github.devbd1.CubWorlds.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;

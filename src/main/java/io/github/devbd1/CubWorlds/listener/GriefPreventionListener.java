@@ -1,6 +1,6 @@
-package com.DevBD1.LiteWorlds.listener;
+package io.github.devbd1.CubWorlds.listener;
 
-import com.DevBD1.LiteWorlds.Main;
+import io.github.devbd1.CubWorlds.Main;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -9,7 +9,6 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.List;
-import java.util.Map;
 
 public class GriefPreventionListener implements Listener {
 
