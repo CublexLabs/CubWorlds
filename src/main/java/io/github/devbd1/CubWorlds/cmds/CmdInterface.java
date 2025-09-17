@@ -44,7 +44,7 @@ public interface CmdInterface {
      * @return Command usage string
      */
     default String getUsage() {
-        return COMMAND_PREFIX + "cubDialogs " + getName() + " (" + String.join("/", getAliases()) + ")";
+        return COMMAND_PREFIX + "cubworlds " + getName() + " (" + String.join("/", getAliases()) + ")";
     }
 
     /**

@@ -37,12 +37,12 @@ public class CmdRegistrar {
             
             CmdManager mgr = new CmdManager();
 
-//            try {
-//                mgr.register(new RecycleCmd(plugin));
-//                plugin.getLogger().info("Registered command: recycle");
-//            } catch (Exception e) {
-//                plugin.getLogger().log(Level.SEVERE, "Failed to register RecycleCmd: " + e.getMessage(), e);
-//            }
+            try {
+                mgr.register(new RecycleCmd(plugin));
+                plugin.getLogger().info("Registered command: recycle");
+            } catch (Exception e) {
+                plugin.getLogger().log(Level.SEVERE, "Failed to register RecycleCmd: " + e.getMessage(), e);
+            }
 
             try {
                 mgr.register(new CreateCmd(plugin));

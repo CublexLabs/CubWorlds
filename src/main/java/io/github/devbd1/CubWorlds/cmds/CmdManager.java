@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class CmdManager implements CommandExecutor, TabCompleter {
     private final Map<String, CmdInterface> commands = new HashMap<>();
@@ -33,7 +34,7 @@ public class CmdManager implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (args.length == 0) {
-            sender.sendMessage("§7Use /cubDialogs <subCommand>");
+            sender.sendMessage("§7Use /cubworlds <subCommand>");
             return true;
         }
 
@@ -61,18 +62,32 @@ public class CmdManager implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
         if (args.length == 1) {
+            // This is the first argument (subcommand selection)
             List<String> suggestions = new ArrayList<>();
+            String partialInput = args[0].toLowerCase();
+            
             // Add main commands and their aliases if player has permission
             for (CmdInterface subCmd : commands.values()) {
                 String cmdName = subCmd.getName().toLowerCase();
                 if (hasAnyPermission(sender, getEffectivePermissions(cmdName, subCmd))) {
-                    suggestions.add(subCmd.getName());
-                    suggestions.addAll(CmdConfig.getAliases(subCmd.getName()));
+                    // Add the main command name if it matches the partial input
+                    if (cmdName.startsWith(partialInput)) {
+                        suggestions.add(subCmd.getName());
+                    }
+                    
+                    // Add aliases that match the partial input
+                    for (String alias1 : CmdConfig.getAliases(subCmd.getName())) {
+                        if (alias1.toLowerCase().startsWith(partialInput)) {
+                            suggestions.add(alias1);
+                        }
+                    }
                 }
             }
+            
             return suggestions;
         }
 
+        // For subsequent arguments, pass to the appropriate subcommand
         String subCmdName = args[0].toLowerCase();
         if (aliasToCommand.containsKey(subCmdName)) {
             subCmdName = aliasToCommand.get(subCmdName);
@@ -83,7 +98,17 @@ public class CmdManager implements CommandExecutor, TabCompleter {
             return Collections.emptyList();
         }
 
+        // Get suggestions from the subcommand's tabComplete method
         List<String> result = sub.tabComplete(sender, Arrays.copyOfRange(args, 1, args.length));
+        
+        // Filter the results based on what the user has typed so far
+        if (result != null && !result.isEmpty() && args.length > 1) {
+            String lastArg = args[args.length - 1].toLowerCase();
+            return result.stream()
+                    .filter(suggestion -> suggestion.toLowerCase().startsWith(lastArg))
+                    .collect(Collectors.toList());
+        }
+        
         return result != null ? result : Collections.emptyList();
     }
 
