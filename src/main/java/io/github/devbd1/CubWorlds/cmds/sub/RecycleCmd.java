@@ -112,7 +112,8 @@ public class RecycleCmd implements CmdInterface {
                 
                 // Extract the original world name if the file follows our naming convention
                 if (name.contains("_")) {
-                    worldName = name.substring(0, name.indexOf('_'));
+//                    worldName = name.substring(0, name.indexOf('_'));
+                    worldName = extractBaseName(file.getName());
                 }
                 
                 // Group by world name
@@ -362,6 +363,18 @@ public class RecycleCmd implements CmdInterface {
                 });
     }
 
+    private String extractBaseName(String folderName) {
+        int lastUnderscore = folderName.lastIndexOf('_');
+        if (lastUnderscore == -1) return folderName;
+        // Son alt çizgiden sonrası tamamen tarih mi diye kontrol edebilirsiniz
+        String suffix = folderName.substring(lastUnderscore + 1);
+        // Eğer suffix tamamen sayı+dash gibi bir pattern ise kes
+        if (suffix.matches("\\d{4}-\\d{2}-\\d{2}.*")) {
+            return folderName.substring(0, lastUnderscore);
+        }
+        return folderName; // güvenlik: pattern tutmazsa tüm isim
+    }
+
     @Override
     public List<String> tabComplete(CommandSender sender, String[] args) {
         if (args.length == 1) {
@@ -375,10 +388,11 @@ public class RecycleCmd implements CmdInterface {
                     return Arrays.stream(files)
                             .filter(File::isDirectory)
                             .map(file -> {
-                                String name = file.getName();
-                                if (name.contains("_")) {
-                                    return name.substring(0, name.indexOf('_'));
-                                }
+//                                String name = file.getName();
+                                String name = extractBaseName(file.getName());
+//                                if (name.contains("_")) {
+//                                    return name.substring(0, name.indexOf('_'));
+//                                }
                                 return name;
                             })
                             .distinct()
