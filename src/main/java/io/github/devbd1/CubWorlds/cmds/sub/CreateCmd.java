@@ -44,7 +44,8 @@ public class CreateCmd implements CmdInterface {
 
     @Override
     public String getUsage() {
-        return "/cubworlds create <name> <type: NORMAL|VOID|NETHER|END> [prevent-grief:true|false]";
+        //return "/cubworlds create <name> <type: NORMAL|VOID|NETHER|END> [prevent-grief:true|false]";
+        return "/cubworlds create <name> <NORMAL|VOID|NETHER|END> [prevent-grief:<true|false>] [world-border:<number>]";
     }
 
     @Override
@@ -54,6 +55,9 @@ public class CreateCmd implements CmdInterface {
         }
         if (args.length == 3) {
             return Arrays.asList("prevent-grief:true", "prevent-grief:false");
+        }
+        if (args.length == 4 && args[2].toLowerCase().startsWith("prevent-grief")) {
+            return Arrays.asList("world-border:1000");
         }
         return Collections.emptyList();
     }
@@ -67,8 +71,7 @@ public class CreateCmd implements CmdInterface {
             }
 
             String name = args[0];
-            
-            // Check if world already exists
+
             if (Bukkit.getWorld(name) != null) {
                 sender.sendMessage("§cWorld '" + name + "' already exists! Choose a different name.");
                 return false;
@@ -94,6 +97,21 @@ public class CreateCmd implements CmdInterface {
                 }
             }
 
+            Integer worldBorderSize = null;
+            for (int i = 2; i < args.length; i++) {
+                String a = args[i].toLowerCase();
+                if (a.startsWith("prevent-grief:")) {
+                    preventGrief = a.equalsIgnoreCase("prevent-grief:true");
+                } else if (a.startsWith("world-border:")) {
+                    try {
+                        worldBorderSize = Integer.parseInt(a.split(":", 2)[1]);
+                    } catch (NumberFormatException ex) {
+                        sender.sendMessage("§cInvalid world-border value. Must be an integer (blocks).");
+                        return false;
+                    }
+                }
+            }
+
             // Initial feedback
             sender.sendMessage("§aCreating world '" + name + "' with type '" + type + "'...");
             sender.sendMessage("§eThis may take a moment. Please wait while the world is being generated...");
@@ -108,6 +126,8 @@ public class CreateCmd implements CmdInterface {
             progressTasks.put(name, progressTask);
 
             // Run world creation on the main thread
+            Integer finalWorldBorderSize = worldBorderSize;
+            boolean finalPreventGrief = preventGrief;
             Bukkit.getScheduler().runTask(plugin, () -> {
                 try {
                     long startCreateTime = System.currentTimeMillis();
@@ -115,7 +135,20 @@ public class CreateCmd implements CmdInterface {
                     
                     // Create the world
                     Bukkit.createWorld(creator);
-                    
+
+                    org.bukkit.World world = Bukkit.getWorld(name);
+                    if (world != null && finalWorldBorderSize != null) {
+                        org.bukkit.WorldBorder border = world.getWorldBorder();
+                        border.setCenter(world.getSpawnLocation()); // spawn merkezli
+                        border.setSize(finalWorldBorderSize);
+                        border.setCenter(0,0);
+                        // opsiyonel: warning / damage
+                        border.setWarningDistance(50);
+                        border.setDamageAmount(0.2);
+                        sender.sendMessage("§bWorld border set to " + finalWorldBorderSize + " blocks radius.");
+                    }
+
+
                     // Cancel the progress task
                     BukkitTask task = progressTasks.remove(name);
                     if (task != null) {
@@ -127,7 +160,7 @@ public class CreateCmd implements CmdInterface {
                     
                     // Success message
                     sender.sendMessage("§a✓ World '" + name + "' created successfully! (Took " + totalTime + " seconds)");
-                    if (preventGrief) {
+                    if (finalPreventGrief) {
                         sender.sendMessage("§7Grief prevention is enabled for this world.");
                     }
                     sender.sendMessage("§7Use §f/cubworlds tp " + name + "§7 to teleport to the new world.");
@@ -154,7 +187,8 @@ public class CreateCmd implements CmdInterface {
                     Map<String, Object> entry = new HashMap<>();
                     entry.put("name", name);
                     entry.put("type", type);
-                    entry.put("prevent-grief", preventGrief);
+                    entry.put("prevent-grief", finalPreventGrief);
+                    entry.put("world-border", finalWorldBorderSize != null ? finalWorldBorderSize : 0);
                     worlds.add(entry);
 
                     config.set("worlds", worlds);

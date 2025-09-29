@@ -3,12 +3,17 @@ worlds:
   - name: world_spawn
     type: VOID
     prevent-grief: true
-    permission: cubworlds.access.world_spawn
-
-  - name: world_test
-    type: NORMAL
-    prevent-grief: false
-    permission: cubworlds.access.world_test
+    world-border:
+      size: 1010
+      center:
+        x: 0
+        z: 0
+    spawn:
+      x: 0.5
+      y: 0
+      z: -62.5
+      yaw: 0
+      pitch: -5.0
 commands:
   version:
     aliases: [ver]

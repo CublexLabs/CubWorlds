@@ -2,11 +2,9 @@ package io.github.devbd1.CubWorlds;
 
 import io.github.devbd1.CubWorlds.cmds.CmdRegistrar;
 import io.github.devbd1.CubWorlds.listener.GriefPreventionListener;
-import io.github.devbd1.CubWorlds.generator.VoidWorldGenerator;
 import io.github.devbd1.CubWorlds.listener.WorldAccessListener;
 import io.github.devbd1.CubWorlds.utilities.ConfigManager;
 import org.bukkit.Bukkit;
-import org.bukkit.WorldCreator;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -15,82 +13,47 @@ import java.util.Map;
 public class Main extends JavaPlugin {
 
     private static Main instance;
+    private WorldLoader worldLoader;
+
     public static Main getInstance() {
         return instance;
     }
+
+    public WorldLoader getWorldLoader() {
+        return worldLoader;
+    }
+
     @Override
     public void onEnable() {
-        try {
-            instance = this;
-            saveDefaultConfig();
-            getLogger().info("CubWorld loaded.");
+        instance = this;
+        saveDefaultConfig();
+        getLogger().info("[CubWorlds] Plugin starting...");
 
+        try {
+            // Tek bir WorldLoader örneği
+            this.worldLoader = new WorldLoader(this);
+
+            // ConfigManager init
             ConfigManager.init(this);
 
-            // Load worlds from config
-            FileConfiguration config = getConfig();
-            if (config.isList("worlds")) {
-                for (Object worldConfigObj : config.getMapList("worlds")) {
-                    try {
-                        Map<String, Object> world = (Map<String, Object>) worldConfigObj;
-                        String name = (String) world.get("name");
-                        if (name == null) {
-                            getLogger().warning("Skipping world with missing name property");
-                            continue;
-                        }
-                        
-                        String type = ((String) world.getOrDefault("type", "NORMAL")).toUpperCase();
-
-                        WorldCreator creator = new WorldCreator(name);
-                        switch (type) {
-                            case "NETHER" -> creator.environment(org.bukkit.World.Environment.NETHER);
-                            case "END" -> creator.environment(org.bukkit.World.Environment.THE_END);
-                            case "VOID" -> {
-                                creator.generator(new VoidWorldGenerator());
-                                creator.environment(org.bukkit.World.Environment.NORMAL);
-                            }
-                            default -> creator.environment(org.bukkit.World.Environment.NORMAL);
-                        }
-
-                        Bukkit.getScheduler().runTaskLater(this, () -> {
-                            try {
-                                Bukkit.createWorld(creator);
-                                getLogger().info("Loaded world: " + name);
-                            } catch (Exception e) {
-                                getLogger().severe("Failed to load world " + name + ": " + e.getMessage());
-                                e.printStackTrace();
-                            }
-                        }, 1L);
-                    } catch (ClassCastException e) {
-                        getLogger().severe("Invalid world configuration entry: " + e.getMessage());
-                    } catch (Exception e) {
-                        getLogger().severe("Error processing world configuration: " + e.getMessage());
-                        e.printStackTrace();
-                    }
+            // Dünyaları config’ten yükle
+            for (Map<?, ?> raw : getConfig().getMapList("worlds")) {
+                String name = (String) raw.get("name");
+                if (name == null || name.isBlank()) {
+                    getLogger().warning("Skipping world entry without a valid name.");
+                    continue;
                 }
+                @SuppressWarnings("unchecked")
+                Map<String, Object> worldMap = (Map<String, Object>) raw;
+                worldLoader.loadWorld(worldMap);
             }
 
-            try {
-                getServer().getPluginManager().registerEvents(new GriefPreventionListener(this), this);
-            } catch (Exception e) {
-                getLogger().severe("Failed to register GriefPreventionListener: " + e.getMessage());
-                e.printStackTrace();
-            }
+            // Event & Command kayıtları
+            getServer().getPluginManager().registerEvents(new GriefPreventionListener(this), this);
+            getServer().getPluginManager().registerEvents(new WorldAccessListener(this), this);
+            CmdRegistrar.register(this);
 
-            try {
-                // Register commands
-                CmdRegistrar.register(this);
-            } catch (Exception e) {
-                getLogger().severe("Failed to register commands: " + e.getMessage());
-                e.printStackTrace();
-            }
-
-            try {
-                getServer().getPluginManager().registerEvents(new WorldAccessListener(this), this);
-            } catch (Exception e) {
-                getLogger().severe("Failed to register WorldAccessListener: " + e.getMessage());
-                e.printStackTrace();
-            }
+            getLogger().info("[CubWorlds] Plugin loaded successfully.");
         } catch (Exception e) {
             getLogger().severe("Critical error during plugin initialization: " + e.getMessage());
             e.printStackTrace();
@@ -104,38 +67,27 @@ public class Main extends JavaPlugin {
             FileConfiguration config = getConfig();
             if (config.isList("worlds")) {
                 for (Object rawWorld : config.getMapList("worlds")) {
-                    try {
-                        if (!(rawWorld instanceof Map)) {
-                            getLogger().warning("Invalid world configuration entry during unload");
-                            continue;
+                    if (!(rawWorld instanceof Map<?, ?> worldMap)) {
+                        getLogger().warning("Invalid world configuration entry during unload");
+                        continue;
+                    }
+
+                    String name = (String) worldMap.get("name");
+                    if (name == null || name.isBlank()) {
+                        getLogger().warning("World entry missing name property during unload");
+                        continue;
+                    }
+
+                    if (Bukkit.getWorld(name) != null) {
+                        boolean success = Bukkit.unloadWorld(name, true); // save before unloading
+                        if (success) {
+                            getLogger().info("Unloaded world: " + name);
+                        } else {
+                            getLogger().warning("Failed to unload world: " + name);
                         }
-                        
-                        Map<?, ?> worldMap = (Map<?, ?>) rawWorld;
-                        String name = (String) worldMap.get("name");
-                        
-                        if (name == null) {
-                            getLogger().warning("World entry missing name property during unload");
-                            continue;
-                        }
-                        
-                        if (Bukkit.getWorld(name) != null) {
-                            try {
-                                boolean success = Bukkit.unloadWorld(name, true); // true = save before unloading
-                                if (success) {
-                                    getLogger().info("Unloaded world: " + name);
-                                } else {
-                                    getLogger().warning("Failed to unload world: " + name);
-                                }
-                            } catch (Exception e) {
-                                getLogger().severe("Error unloading world " + name + ": " + e.getMessage());
-                            }
-                        }
-                    } catch (Exception e) {
-                        getLogger().severe("Error processing world during shutdown: " + e.getMessage());
                     }
                 }
             }
-
             getLogger().info("CubWorlds disabled.");
         } catch (Exception e) {
             getLogger().severe("Error during plugin shutdown: " + e.getMessage());
