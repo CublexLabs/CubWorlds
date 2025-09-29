@@ -58,7 +58,7 @@ public class TeleportCmd implements CmdInterface {
         String worldName = args[0];
         World world = Bukkit.getWorld(worldName);
         if (world == null) {
-            sender.sendMessage("World is not loaded. Load it first using /liteworld load " + worldName);
+            sender.sendMessage("World is not loaded. Load it first using /cubworlds load " + worldName);
             return false;
         }
 
