@@ -86,6 +86,13 @@ public class CmdRegistrar {
                 plugin.getLogger().log(Level.SEVERE, "Failed to register UnloadCmd: " + e.getMessage(), e);
             }
 
+            try {
+                mgr.register(new SetSpawnCmd(plugin));
+                plugin.getLogger().info("Registered command: unload");
+            } catch (Exception e) {
+                plugin.getLogger().log(Level.SEVERE, "Failed to register UnloadCmd: " + e.getMessage(), e);
+            }
+
             cmd.setExecutor(mgr);
             cmd.setTabCompleter(mgr);
             plugin.getLogger().info("Command registration complete. Commands should be available via /cubworlds or /cw");

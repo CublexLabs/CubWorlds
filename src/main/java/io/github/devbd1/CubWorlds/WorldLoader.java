@@ -139,4 +139,8 @@ public class WorldLoader {
     public Location getSpawn(String worldName) {
         return spawnLocations.get(worldName.toLowerCase(Locale.ROOT));
     }
+    public void setSpawn(String worldName, Location loc) {
+        spawnLocations.put(worldName.toLowerCase(Locale.ROOT), loc.clone());
+    }
+
 }
