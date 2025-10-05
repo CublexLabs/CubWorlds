@@ -3,6 +3,8 @@ plugins {
     id("xyz.jpenilla.run-paper") version "2.3.1"
 }
 
+group = 'io.github.devbd1'
+
 def versionFile = file("version.txt")
 if (versionFile.exists()) {
     version = versionFile.text.trim()
@@ -12,22 +14,23 @@ if (versionFile.exists()) {
 }
 println "[CubWorlds] Using project.version = ${version}"
 
-group = 'io.github.devbd1'
-
 repositories {
+    mavenLocal()
     mavenCentral()
+    maven {
+        name = "papermc-repo"
+        url = "https://repo.papermc.io/repository/maven-public/"
+    }
     maven {
         name = "spigotmc-repo"
         url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
-    }
-    maven {
-        name = "sonatype"
-        url = "https://oss.sonatype.org/content/groups/public/"
     }
 }
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.21.4-R0.1-SNAPSHOT")
+    compileOnly "io.github.devbd1:CublexCore:2.0.0"
+    compileOnly "org.jetbrains:annotations:24.0.1"
 }
 
 tasks {
