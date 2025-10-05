@@ -2,6 +2,7 @@ package io.github.devbd1.CubWorlds.cmds;
 
 import io.github.devbd1.CubWorlds.Main;
 import io.github.devbd1.CubWorlds.cmds.sub.*;
+import io.github.devbd1.cublexcore.modules.logger.LoggingManager;
 import org.bukkit.command.PluginCommand;
 
 import java.util.logging.Level;
@@ -9,9 +10,11 @@ import java.util.logging.Level;
 import static org.bukkit.Bukkit.getLogger;
 
 public class CmdRegistrar {
+
     private CmdRegistrar() {}
 
     public static void register(Main plugin) {
+
         try {
             PluginCommand cmd = plugin.getCommand("CubWorlds");
             
@@ -36,6 +39,22 @@ public class CmdRegistrar {
             plugin.getLogger().info("Registering commands for CubWorlds...");
             
             CmdManager mgr = new CmdManager();
+
+            // 🔹 CublexCore bağlantısı
+            io.github.devbd1.cublexcore.Main core =
+                    (io.github.devbd1.cublexcore.Main) plugin.getServer().getPluginManager().getPlugin("CublexCore");
+
+            if (core == null || !core.isEnabled()) {
+                plugin.getLogger().severe("CublexCore not found or not enabled! Skipping VersionCmd registration.");
+            } else {
+                LoggingManager logger = core.getLoggingManager();
+                try {
+                    mgr.register(new VersionCmd(plugin, logger));
+                    plugin.getLogger().info("Registered command: version");
+                } catch (Exception e) {
+                    plugin.getLogger().log(Level.SEVERE, "Failed to register VersionCmd: " + e.getMessage(), e);
+                }
+            }
 
             try {
                 mgr.register(new RecycleCmd(plugin));
