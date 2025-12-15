@@ -1,13 +1,12 @@
-package io.github.devbd1.CubWorlds.cmds;
+package io.github.cublexlabs.cubworlds.cmds;
 
-import io.github.devbd1.CubWorlds.Main;
+import io.github.cublexlabs.cubworlds.Main;
+import io.github.cublexlabs.cubworlds.cmds.sub.*;
 import io.github.devbd1.CubWorlds.cmds.sub.*;
 import io.github.devbd1.cublexcore.modules.logger.LoggingManager;
 import org.bukkit.command.PluginCommand;
 
 import java.util.logging.Level;
-
-import static org.bukkit.Bukkit.getLogger;
 
 public class CmdRegistrar {
 

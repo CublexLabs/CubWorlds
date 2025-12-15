@@ -1,4 +1,4 @@
-package io.github.devbd1.CubWorlds.generator;
+package io.github.cublexlabs.cubworlds.generator;
 
 import org.bukkit.World;
 import org.bukkit.generator.ChunkGenerator;

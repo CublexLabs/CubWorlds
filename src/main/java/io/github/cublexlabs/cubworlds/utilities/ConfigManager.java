@@ -1,4 +1,4 @@
-package io.github.devbd1.CubWorlds.utilities;
+package io.github.cublexlabs.cubworlds.utilities;
 
 /**
  * Singleton helper to manage configuration.

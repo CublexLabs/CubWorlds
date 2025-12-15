@@ -1,47 +1,78 @@
+# To ensure the permission system and the load/unload world system
+# function correctly, you MUST define a fallback-world.
 fallback-world: world_spawn
+# You can enable/disable modules by setting true/false for each.
+# If you disable a module, it's constructor never called and it's
+# events never registered. So you will experience more performance.
+modules:
+  grief-prevention: true
+  world-border: true
+  pvp-handling: true
+# Access permission for a world: "cubworlds.access.<world_name>"
 worlds:
-  - name: world_spawn
-    type: VOID
-    prevent-grief: true
+  - name: world_spawn # folder name of your custom world
+    type: VOID # world type is VOID, NORMAL, NETHER or END
+    prevent-grief: true # forbidden to break, place and interact
     world-border:
-      size: 1010
-      center:
+      size: 1010 # distance from the "center" to the "edge"
+      center: # origin of the square
         x: 0
         z: 0
-    spawn:
+    spawn: # used by teleport commands
       x: 0.5
       y: 0
       z: -62.5
       yaw: 0
       pitch: -5.0
+# In this section, you can define aliases and permissions for each command.
+# If you delete a command's settings, it's aliases entry and permissions list
+# will be null which means it has no aliases other than the original command
+# and it doesn't require a permission to be used.
+#
+# "permissions" entry is a list. You can define more than 1 perm if you want.
 commands:
-  version:
-    aliases: [ver]
-    permissions:
-      - CubWorlds.admin.*
-  reload:
-    aliases: [rl]
-    permissions:
-      - CubWorlds.admin.*
   create:
-    aliases: [cr]
     permissions:
-      - CubWorlds.admin.*.*
+      - cubworlds.command.create
+      - cubworlds.command.admin
   delete:
     aliases: [del]
     permissions:
-      - CubWorlds.admin.*.*
+      - cubworlds.command.delete
+      - cubworlds.command.admin
   list:
     aliases: [ls]
     permissions:
-      - CubWorlds.admin.*.*
+      - cubworlds.command.list
+      - cubworlds.command.admin
   load:
     permissions:
-      - CubWorlds.admin.*.*
-  unload:
+      - cubworlds.command.load
+      - cubworlds.command.admin
+  recycle:
     permissions:
-      - CubWorlds.admin.*.*
+      - cubworlds.command.recycle
+      - cubworlds.command.admin
+  reload:
+    aliases: [rl]
+    permissions:
+      - cubworlds.command.reload
+      - cubworlds.command.admin
+  setspawn:
+    permissions:
+      - cubworlds.command.setspawn
+      - cubworlds.command.admin
   teleport:
     aliases: [tp]
     permissions:
-      - CubWorlds.admin.*
+      - cubworlds.command.teleport
+      - cubworlds.command.admin
+  unload:
+    permissions:
+      - cubworlds.command.unload
+      - cubworlds.command.admin
+  version:
+    aliases: [ver]
+    permissions:
+      - cubworlds.command.version
+      - cubworlds.command.admin

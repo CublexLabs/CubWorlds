@@ -1,6 +1,6 @@
-package io.github.devbd1.CubWorlds.listener;
+package io.github.cublexlabs.cubworlds.listener;
 
-import io.github.devbd1.CubWorlds.Main;
+import io.github.cublexlabs.cubworlds.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;

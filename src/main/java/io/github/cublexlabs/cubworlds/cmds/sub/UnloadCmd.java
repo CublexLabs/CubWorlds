@@ -1,8 +1,8 @@
-package io.github.devbd1.CubWorlds.cmds.sub;
+package io.github.cublexlabs.cubworlds.cmds.sub;
 
-import io.github.devbd1.CubWorlds.Main;
-import io.github.devbd1.CubWorlds.cmds.CmdConfig;
-import io.github.devbd1.CubWorlds.cmds.CmdInterface;
+import io.github.cublexlabs.cubworlds.Main;
+import io.github.cublexlabs.cubworlds.cmds.CmdConfig;
+import io.github.cublexlabs.cubworlds.cmds.CmdInterface;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;

@@ -1,9 +1,10 @@
-package io.github.devbd1.CubWorlds;
+package io.github.cublexlabs.cubworlds;
 
-import io.github.devbd1.CubWorlds.cmds.CmdRegistrar;
-import io.github.devbd1.CubWorlds.listener.GriefPreventionListener;
-import io.github.devbd1.CubWorlds.listener.WorldAccessListener;
-import io.github.devbd1.CubWorlds.utilities.ConfigManager;
+import io.github.cublexlabs.cubworlds.cmds.CmdRegistrar;
+import io.github.cublexlabs.cubworlds.listener.GriefPreventionListener;
+import io.github.cublexlabs.cubworlds.listener.WorldAccessListener;
+import io.github.cublexlabs.cubworlds.utilities.ConfigManager;
+import io.github.cublexlabs.cubworlds.utilities.PlaceholderAPIExtension;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -15,9 +16,9 @@ public class Main extends JavaPlugin {
     private static Main instance;
     private WorldLoader worldLoader;
 
-    public static Main getInstance() {
-        return instance;
-    }
+//    public static Main getInstance() {
+//        return instance;
+//    }
 
     public WorldLoader getWorldLoader() {
         return worldLoader;
@@ -58,6 +59,10 @@ public class Main extends JavaPlugin {
             getLogger().severe("Critical error during plugin initialization: " + e.getMessage());
             e.printStackTrace();
             getServer().getPluginManager().disablePlugin(this);
+        }
+
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) { //
+            new PlaceholderAPIExtension(this).register(); //
         }
     }
 

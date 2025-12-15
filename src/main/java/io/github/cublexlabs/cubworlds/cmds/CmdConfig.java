@@ -1,6 +1,6 @@
-package io.github.devbd1.CubWorlds.cmds;
+package io.github.cublexlabs.cubworlds.cmds;
 
-import io.github.devbd1.CubWorlds.utilities.ConfigManager;
+import io.github.cublexlabs.cubworlds.utilities.ConfigManager;
 import org.bukkit.configuration.ConfigurationSection;
 import java.util.List;
 import java.util.Collections;

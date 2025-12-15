@@ -1,6 +1,6 @@
-package io.github.devbd1.CubWorlds.listener;
+package io.github.cublexlabs.cubworlds.listener;
 
-import io.github.devbd1.CubWorlds.Main;
+import io.github.cublexlabs.cubworlds.Main;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

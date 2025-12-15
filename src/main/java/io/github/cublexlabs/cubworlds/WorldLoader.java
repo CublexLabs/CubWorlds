@@ -1,10 +1,7 @@
-package io.github.devbd1.CubWorlds;
+package io.github.cublexlabs.cubworlds;
 
-import io.github.devbd1.CubWorlds.generator.VoidWorldGenerator;
+import io.github.cublexlabs.cubworlds.generator.VoidWorldGenerator;
 import org.bukkit.*;
-import org.bukkit.configuration.ConfigurationSection;
-import io.github.devbd1.CubWorlds.listener.GriefPreventionListener;
-import io.github.devbd1.CubWorlds.listener.WorldAccessListener;
 import org.bukkit.plugin.Plugin;
 
 import java.util.HashMap;
@@ -133,14 +130,57 @@ public class WorldLoader {
         }, 1L);
 
     }
+
     /**
-     * Diğer class’lar bu metotla spawn location’a ulaşıcak.
+     * Diğer class'lar bu metotla spawn location'a ulaşır.
      */
     public Location getSpawn(String worldName) {
         return spawnLocations.get(worldName.toLowerCase(Locale.ROOT));
     }
+
     public void setSpawn(String worldName, Location loc) {
         spawnLocations.put(worldName.toLowerCase(Locale.ROOT), loc.clone());
+    }
+
+    /**
+     * Check if a world is loaded and managed by CubWorlds.
+     * This checks both if the world exists in Bukkit AND if it's tracked by CubWorlds.
+     *
+     * @param worldName The name of the world to check
+     * @return true if the world is loaded by CubWorlds, false otherwise
+     */
+    public boolean isWorldLoaded(String worldName) {
+        if (worldName == null || worldName.isBlank()) {
+            return false;
+        }
+
+        String normalizedName = worldName.toLowerCase(Locale.ROOT);
+        
+        // Check if the world is tracked by CubWorlds (has a spawn location registered)
+        boolean isTracked = spawnLocations.containsKey(normalizedName);
+        
+        // Additionally verify the world actually exists in Bukkit
+        boolean existsInBukkit = Bukkit.getWorld(worldName) != null;
+        
+        plugin.getLogger().fine(
+            String.format("[WorldLoader] isWorldLoaded(%s): tracked=%s, existsInBukkit=%s", 
+                worldName, isTracked, existsInBukkit)
+        );
+        
+        return isTracked && existsInBukkit;
+    }
+
+    /**
+     * Get the count of worlds currently loaded and managed by CubWorlds.
+     * This returns the number of worlds that have been successfully loaded through
+     * the CubWorlds configuration.
+     *
+     * @return The number of loaded CubWorlds
+     */
+    public int getLoadedWorldsCount() {
+        int count = spawnLocations.size();
+        plugin.getLogger().fine("[WorldLoader] getLoadedWorldsCount() = " + count);
+        return count;
     }
 
 }

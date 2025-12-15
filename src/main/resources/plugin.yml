@@ -1,17 +1,31 @@
 name: CubWorlds
+main: io.github.cublexlabs.cubworlds.Main
 version: ${version}
-main: io.github.devbd1.CubWorlds.Main
 api-version: '1.21'
-description: Lightweight custom world manager with void world support and grief prevention.
-authors: [ DevBD1 ]
-website: https://labs.cublex.net
 load: POSTWORLD
+authors: [ DevBD1 ]
+description: Lightweight custom world manager with essential features.
+website: https://labs.cublex.net
+depend:
+  - CublexCore
 softdepend:
-  - Cub
   - CubDialogs
+  - PlaceholderAPI
+# You can manage each subcommand in config.yml
 commands:
-  CubWorlds:
-    description: Manage the custom worlds
-    usage: /CubWorlds <subcommand>
+  cubworlds:
+    usage: /cubworlds <subcommand>
+    permission: cubworlds.command.root
+    description: CubWorld main command
     aliases: [cw]
-permissions: {}
+# Permissions are dynamically set for each command in config.yml
+permissions:
+  cubworlds.admin:
+    description: Allows high-level admin access to any command
+    default: op
+  cubworlds.mod:
+    description: Allows low-level access to some admin commands
+  cubworlds.user:
+    description: Allows access to user commands
+  cubworlds.command.root:
+    description: Use it with specific perm(s) of a subcommand
