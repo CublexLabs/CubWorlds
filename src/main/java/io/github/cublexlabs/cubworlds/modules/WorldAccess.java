@@ -1,4 +1,4 @@
-package io.github.cublexlabs.cubworlds.listener;
+package io.github.cublexlabs.cubworlds.modules;
 
 import io.github.cublexlabs.cubworlds.Main;
 import org.bukkit.Bukkit;
@@ -14,10 +14,10 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import java.util.List;
 import java.util.Map;
 
-public class WorldAccessListener implements Listener {
+public class WorldAccess implements Listener {
     private final Main plugin;
 
-    public WorldAccessListener(Main plugin) {
+    public WorldAccess(Main plugin) {
         this.plugin = plugin;
     }
 

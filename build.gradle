@@ -3,7 +3,7 @@ plugins {
     id("xyz.jpenilla.run-paper") version "2.3.1"
 }
 
-group = 'io.github.devbd1'
+group = 'io.github.cublexlabs'
 
 def versionFile = file("version.txt")
 if (versionFile.exists()) {
@@ -28,13 +28,16 @@ repositories {
     maven {
         url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
     }
+//    maven {
+//        url = 'https://raw.githubusercontent.com/CublexLabs/maven-repo/main/'                                                                                                                                               │
+//    }
 }
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.21.4-R0.1-SNAPSHOT")
-    implementation("io.github.devbd1:CublexCore:2.0.0")
-    compileOnly "org.jetbrains:annotations:24.0.1"
-    compileOnly 'me.clip:placeholderapi:2.11.6'
+    compileOnly("io.github.cublexlabs:CublexCore:2.0.0")
+    compileOnly("org.jetbrains:annotations:24.0.1")
+    compileOnly("me.clip:placeholderapi:2.11.6")
 }
 
 tasks {

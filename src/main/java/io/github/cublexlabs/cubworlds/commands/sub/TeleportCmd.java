@@ -1,9 +1,9 @@
-package io.github.cublexlabs.cubworlds.cmds.sub;
+package io.github.cublexlabs.cubworlds.commands.sub;
 
 import io.github.cublexlabs.cubworlds.Main;
 import io.github.cublexlabs.cubworlds.WorldLoader;
-import io.github.cublexlabs.cubworlds.cmds.CmdConfig;
-import io.github.cublexlabs.cubworlds.cmds.CmdInterface;
+import io.github.cublexlabs.cubworlds.commands.CmdConfig;
+import io.github.cublexlabs.cubworlds.commands.CmdInterface;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;

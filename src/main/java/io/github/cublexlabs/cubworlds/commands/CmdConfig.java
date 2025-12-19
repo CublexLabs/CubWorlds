@@ -1,4 +1,4 @@
-package io.github.cublexlabs.cubworlds.cmds;
+package io.github.cublexlabs.cubworlds.commands;
 
 import io.github.cublexlabs.cubworlds.utilities.ConfigManager;
 import org.bukkit.configuration.ConfigurationSection;

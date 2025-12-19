@@ -8,15 +8,19 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ * Reads a single world config entry, creates the world, and applies the
+ * world-border, spawn, grief-prevention, and permission settings.
+ */
 public class WorldLoader {
-
-    private final Plugin plugin;
+    private Main mainClass = Main.getInstance();
+//    private final Plugin plugin;
 
     private final Map<String, Location> spawnLocations = new HashMap<>();
 
     public WorldLoader(Plugin plugin) {
-        this.plugin = plugin;
-    }
+        this.mainClass = (Main) plugin;
+}
 
     /**
      * Reads a single world config entry, creates the world, and applies the
@@ -28,7 +32,7 @@ public class WorldLoader {
     public void loadWorld(Map<String, Object> worldData) {
         String name = (String) worldData.get("name");
         if (name == null || name.isBlank()) {
-            plugin.getLogger().warning("Skipping world with missing name property.");
+            mainClass.getLogger().warning("Skipping world with missing name property.");
             return;
         }
         // --- Environment & Generator ---
@@ -44,14 +48,14 @@ public class WorldLoader {
             default -> creator.environment(World.Environment.NORMAL);
         }
         // Bukkit world creation async–safe: create inside scheduler
-        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+        Bukkit.getScheduler().runTaskLater(mainClass, () -> {
             try {
                 World loadedWorld = Bukkit.createWorld(creator);
                 if (loadedWorld == null) {
-                    plugin.getLogger().severe("Failed to load world: " + name);
+                    mainClass.getLogger().severe("Failed to load world: " + name);
                     return;
                 }
-                plugin.getLogger().info("Loaded world: " + name);
+                mainClass.getLogger().info("Loaded world: " + name);
                 // === World Border ===
                 Object wbObj = worldData.get("world-border");
                 if (wbObj instanceof Map<?, ?> wbMapRaw) {
@@ -81,7 +85,7 @@ public class WorldLoader {
                         //border.setWarningDistance(50);
                         //border.setDamageAmount(0.2);
 
-                        plugin.getLogger().info("World-border applied to " + name + " radius=" + size);
+                        mainClass.getLogger().info("World-border applied to " + name + " radius=" + size);
                     }
                 }
                 // === Spawn ===
@@ -109,7 +113,7 @@ public class WorldLoader {
                 }
 
                 spawnLocations.put(name.toLowerCase(Locale.ROOT), spawnLoc);
-                plugin.getLogger().info("World loaded: " + name + " spawn saved.");
+                mainClass.getLogger().info("World loaded: " + name + " spawn saved.");
 
 
 //                // === Prevent-Grief ===
@@ -124,7 +128,7 @@ public class WorldLoader {
 //                }
 
             } catch (Exception ex) {
-                plugin.getLogger().severe("Error while loading world " + name + ": " + ex.getMessage());
+                mainClass.getLogger().severe("Error while loading world " + name + ": " + ex.getMessage());
                 ex.printStackTrace();
             }
         }, 1L);
@@ -161,8 +165,8 @@ public class WorldLoader {
         
         // Additionally verify the world actually exists in Bukkit
         boolean existsInBukkit = Bukkit.getWorld(worldName) != null;
-        
-        plugin.getLogger().fine(
+
+        mainClass.getLogger().fine(
             String.format("[WorldLoader] isWorldLoaded(%s): tracked=%s, existsInBukkit=%s", 
                 worldName, isTracked, existsInBukkit)
         );
@@ -179,7 +183,7 @@ public class WorldLoader {
      */
     public int getLoadedWorldsCount() {
         int count = spawnLocations.size();
-        plugin.getLogger().fine("[WorldLoader] getLoadedWorldsCount() = " + count);
+        mainClass.getLogger().fine("[WorldLoader] getLoadedWorldsCount() = " + count);
         return count;
     }
 

@@ -1,9 +1,8 @@
-package io.github.cublexlabs.cubworlds.cmds;
+package io.github.cublexlabs.cubworlds.commands;
 
 import io.github.cublexlabs.cubworlds.Main;
-import io.github.cublexlabs.cubworlds.cmds.sub.*;
-import io.github.cublexlabs.cubworlds.cmds.sub.*;
-import io.github.devbd1.cublexcore.modules.logger.LoggingManager;
+import io.github.cublexlabs.cubworlds.commands.sub.*;
+//import io.github.cublexlabs.cublexcore.modules.logger.LoggingManager;
 import org.bukkit.command.PluginCommand;
 
 import java.util.logging.Level;
@@ -39,20 +38,19 @@ public class CmdRegistrar {
             
             CmdManager mgr = new CmdManager();
 
-            // 🔹 CublexCore bağlantısı
-            io.github.devbd1.cublexcore.Main core =
-                    (io.github.devbd1.cublexcore.Main) plugin.getServer().getPluginManager().getPlugin("CublexCore");
+            // 🔹 CublexCore bağlantısı                                                                                                                                                                                     │
+            //io.github.cublexlabs.cublexcore.Main core = (io.github.cublexlabs.cublexcore.Main) plugin.getServer().getPluginManager().getPlugin("CublexCore");                                                                                                   │
+            //if (core == null || !core.isEnabled()) {                                                                                                                                                                        │
+                //plugin.getLogger().severe("CublexCore not found or not enabled! Skipping VersionCmd registration.");                                                                                                        │
+            //} else {                                                                                                                                                                                                        │
+                //LoggingManager logger = core.getLoggingManager();
 
-            if (core == null || !core.isEnabled()) {
-                plugin.getLogger().severe("CublexCore not found or not enabled! Skipping VersionCmd registration.");
-            } else {
-                LoggingManager logger = core.getLoggingManager();
-                try {
-                    mgr.register(new VersionCmd(plugin, logger));
-                    plugin.getLogger().info("Registered command: version");
-                } catch (Exception e) {
-                    plugin.getLogger().log(Level.SEVERE, "Failed to register VersionCmd: " + e.getMessage(), e);
-                }
+            try {
+                //mgr.register(new VersionCmd(plugin));
+                mgr.register(new VersionCmd(plugin));
+                plugin.getLogger().info("Registered command: version");
+            } catch (Exception e) {
+                plugin.getLogger().log(Level.SEVERE, "Failed to register VersionCmd: " + e.getMessage(), e);
             }
 
             try {

@@ -1,35 +1,40 @@
-# To ensure the permission system and the load/unload world system
-# function correctly, you MUST define a fallback-world.
+# To ensure the permission system and world load/unload system
+# work correctly, you MUST define a fallback world.
 fallback-world: world_spawn
-# You can enable/disable modules by setting true/false for each.
-# If you disable a module, it's constructor never called and it's
-# events never registered. So you will experience more performance.
+# Enable or disable modules by setting them to true or false.
+# Disabled modules are not initialized and do not register any events,
+# which improves server performance.
 modules:
   grief-prevention: true
   world-border: true
   pvp-handling: true
-# Access permission for a world: "cubworlds.access.<world_name>"
+  custom-logger: true
+# World access permission format:
+# cubworlds.access.<world_name>
 worlds:
   - name: world_spawn # folder name of your custom world
-    type: VOID # world type is VOID, NORMAL, NETHER or END
-    prevent-grief: true # forbidden to break, place and interact
+    type: VOID # available types: VOID, NORMAL, NETHER, END
+    prevent-grief: true # prevents breaking, placing, and interaction
     world-border:
-      size: 1010 # distance from the "center" to the "edge"
-      center: # origin of the square
+      size: 1010 # distance from the center to the border edge
+      center: # center point of the border (square)
         x: 0
         z: 0
-    spawn: # used by teleport commands
+    spawn: # used by teleport and spawn-related commands
       x: 0.5
       y: 0
       z: -62.5
       yaw: 0
       pitch: -5.0
-# In this section, you can define aliases and permissions for each command.
-# If you delete a command's settings, it's aliases entry and permissions list
-# will be null which means it has no aliases other than the original command
-# and it doesn't require a permission to be used.
+# Command configuration section.
+# Here you can define aliases and required permissions for each command.
 #
-# "permissions" entry is a list. You can define more than 1 perm if you want.
+# If a command section is removed:
+# - The command will have no aliases (other than its default name)
+# - The command will not require any permissions to be used
+#
+# The "permissions" field is a list.
+# You can define multiple permissions for the same command.
 commands:
   create:
     permissions:

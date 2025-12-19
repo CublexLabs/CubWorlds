@@ -1,4 +1,4 @@
-package io.github.cublexlabs.cubworlds.cmds;
+package io.github.cublexlabs.cubworlds.commands;
 
 import org.bukkit.command.CommandSender;
 

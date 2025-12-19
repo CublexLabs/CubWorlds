@@ -1,5 +1,5 @@
 
-package io.github.cublexlabs.cubworlds.utilities;
+package io.github.cublexlabs.cubworlds.hooks;
 
 import io.github.cublexlabs.cubworlds.Main;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;

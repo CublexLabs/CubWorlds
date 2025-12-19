@@ -1,25 +1,24 @@
-package io.github.cublexlabs.cubworlds.cmds.sub;
+package io.github.cublexlabs.cubworlds.commands.sub;
 
-import io.github.cublexlabs.cubworlds.cmds.CmdConfig;
-import io.github.cublexlabs.cubworlds.cmds.CmdInterface;
-import io.github.devbd1.cublexcore.modules.logger.LoggingManager;
-import io.github.devbd1.cublexcore.utilities.VersionChecker;
+import io.github.cublexlabs.cubworlds.Main;
+import io.github.cublexlabs.cubworlds.commands.CmdConfig;
+import io.github.cublexlabs.cubworlds.commands.CmdInterface;
+import io.github.cublexlabs.cubworlds.hooks.LoggingManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.lushplugins.chatcolorhandler.ChatColorHandler;
+// import org.lushplugins.chatcolorhandler.ChatColorHandler
 
 import java.lang.reflect.Method;
 import java.util.List;
 
 public class VersionCmd implements CmdInterface {
     String CMD_NAME = "version";
-    private final JavaPlugin plugin;
+    private final Main plugin;
     private final LoggingManager logger;
 
-    public VersionCmd(JavaPlugin plugin, LoggingManager logger) {
+    public VersionCmd(Main plugin) {
         this.plugin = plugin;
-        this.logger = logger;
+        this.logger = new LoggingManager(plugin);
     }
 
     @Override
@@ -54,18 +53,20 @@ public class VersionCmd implements CmdInterface {
 
     @Override
     public boolean execute(CommandSender sender, String[] args) {
-        logger.info("[CublexCore] '/cublex <" + CMD_NAME + ">' command used by " + sender.getName());
+        logger.info("'/cubworlds <" + CMD_NAME + ">' command used by " + sender.getName());
 
-        VersionChecker checker = new VersionChecker();
+        // VersionChecker checker = new VersionChecker();
 
         String name;
         String version;
         List<String> authors;
 
-        ChatColorHandler.sendMessage(sender, "§e§oChecking &6§oCubWorlds §e§oplugin version, please wait...");
+        // ChatColorHandler.sendMessage(sender, "§e§oChecking &6§oCubWorlds §e§oplugin version, please wait...");
+        sender.sendMessage("§e§oChecking §6§oCubWorlds §e§oplugin version, please wait...");
         try {
             // Paper API (>=1.20.5) -> getPluginMeta()
-            Method metaMethod = JavaPlugin.class.getMethod("getPluginMeta");
+            // Method metaMethod = JavaPlugin.class.getMethod("getPluginMeta")
+            Method metaMethod = plugin.getClass().getMethod("getPluginMeta");
             Object pluginMeta = metaMethod.invoke(plugin);
 
             Method getName = pluginMeta.getClass().getMethod("getName");
@@ -84,16 +85,15 @@ public class VersionCmd implements CmdInterface {
             version = desc.getVersion();
             authors = desc.getAuthors();
         }
+        // ChatColorHandler.sendMessage(sender, "&6[" + name + "] &cversion: " + version);                                                                                                                                  │
+        // ChatColorHandler.sendMessage(sender, "&6[" + name + "] &cauthors: " + String.join(", ", authors));
+        sender.sendMessage("§eThis server is running &6" + name + " §eversion §6" + version + " §eby §6" + authors + "§e." + " (Implementing CublexAPI version &6" + version + "&e)");
 
-        //ChatColorHandler.sendMessage(sender, "&6[" + name + "] &cversion: " + version);
-        //ChatColorHandler.sendMessage(sender, "&6[" + name + "] &cauthors: " + String.join(", ", authors));
-
-        ChatColorHandler.sendMessage(sender, "§eThis server is running &6" + name + " §eversion §6" + version + " §eby §6" + authors + "§e." + " (Implementing CublexAPI version &6" + version + "&e)");
-
+        // ChatColorHandler.sendMessage(sender, "§eThis server is running &6" + name + " §eversion §6" + version + " §eby §6" + authors + "§e." + " (Implementing CublexAPI version &6" + version + "&e)")
         // Version check
-        checker.check(sender, "CublexLabs", name, version);
+        // checker.check(sender, "CublexLabs", name, version);
 
-        //ChatColorHandler.sendMessage(sender, "Download the new version at: https://www.spigotmc.org/resources/cublexcore/");
+        // ChatColorHandler.sendMessage(sender, "Download the new version at: https://www.spigotmc.org/resources/cublexcore/");
         return true;
     }
 }

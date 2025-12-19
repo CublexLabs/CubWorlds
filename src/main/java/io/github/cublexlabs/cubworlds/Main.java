@@ -1,12 +1,11 @@
 package io.github.cublexlabs.cubworlds;
 
-import io.github.cublexlabs.cubworlds.cmds.CmdRegistrar;
-import io.github.cublexlabs.cubworlds.listener.GriefPreventionListener;
-import io.github.cublexlabs.cubworlds.listener.WorldAccessListener;
+import io.github.cublexlabs.cubworlds.commands.CmdRegistrar;
+import io.github.cublexlabs.cubworlds.hooks.PlaceholderAPIExtension;
 import io.github.cublexlabs.cubworlds.utilities.ConfigManager;
-import io.github.cublexlabs.cubworlds.utilities.PlaceholderAPIExtension;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Map;
@@ -15,33 +14,25 @@ public class Main extends JavaPlugin {
 
     private static Main instance;
     private WorldLoader worldLoader;
-
-//    public static Main getInstance() {
-//        return instance;
-//    }
-
-    public WorldLoader getWorldLoader() {
-        return worldLoader;
-    }
+    private boolean cublexCoreLoaded;
 
     @Override
     public void onEnable() {
         instance = this;
         saveDefaultConfig();
-        getLogger().info("[CubWorlds] Plugin starting...");
+        getLogger().info("[CubWorlds] Plugin is starting...");
+
+        Plugin cublexCore = getServer().getPluginManager().getPlugin("CublexCore");
+        this.cublexCoreLoaded = (cublexCore != null && cublexCore.isEnabled());
 
         try {
-            // Tek bir WorldLoader örneği
             this.worldLoader = new WorldLoader(this);
-
-            // ConfigManager init
             ConfigManager.init(this);
 
-            // Dünyaları config’ten yükle
             for (Map<?, ?> raw : getConfig().getMapList("worlds")) {
                 String name = (String) raw.get("name");
                 if (name == null || name.isBlank()) {
-                    getLogger().warning("Skipping world entry without a valid name.");
+                    getLogger().warning("[CubWorlds] Skipping a world entry without a valid name.");
                     continue;
                 }
                 @SuppressWarnings("unchecked")
@@ -49,9 +40,9 @@ public class Main extends JavaPlugin {
                 worldLoader.loadWorld(worldMap);
             }
 
-            // Event & Command kayıtları
-            getServer().getPluginManager().registerEvents(new GriefPreventionListener(this), this);
-            getServer().getPluginManager().registerEvents(new WorldAccessListener(this), this);
+            /// Event registering
+            EventRegistrar.register(getServer(), this);
+            /// Command registering
             CmdRegistrar.register(this);
 
             getLogger().info("[CubWorlds] Plugin loaded successfully.");
@@ -98,5 +89,17 @@ public class Main extends JavaPlugin {
             getLogger().severe("Error during plugin shutdown: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    public static Main getInstance() {
+        return instance;
+    }
+
+    public WorldLoader getWorldLoader() {
+        return worldLoader;
+    }
+
+    public boolean isCublexCoreLoaded() {
+        return cublexCoreLoaded;
     }
 }
