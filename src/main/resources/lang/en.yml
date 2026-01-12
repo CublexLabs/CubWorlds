@@ -1,0 +1,97 @@
+# lang/en.yml
+
+prefix: "&8[&bKuksoWorlds&8] &8» "
+
+general:
+  no-permission: "&cYou don't have permission to use this command."
+  only-players: "&cOnly players can use this command."
+  usage: "&cUsage: <usage>"
+  world-not-found: "&cWorld '<name>' is not loaded."
+  unknown-subcommand: "&cUnknown subcommand: <command>"
+  unexpected-error: "&cAn unexpected error occurred: <error>"
+
+commands:
+  create:
+    exists: "&cWorld '<name>' already exists! Choose a different name."
+    invalid-type: "&cInvalid world type. Use NORMAL, VOID, NETHER or END."
+    invalid-border: "&cInvalid world-border value. Must be an integer (blocks)."
+    start: "&aCreating world '<name>' with type '<type>'..."
+    wait: "&eThis may take a moment. Please wait while the world is being generated..."
+    still-creating: "&eStill creating world '<name>'... (<time>s elapsed)"
+    generating-structures: "&eGenerating world structures. This could take several seconds..."
+    border-set: "&bWorld border set to <size> blocks radius."
+    success: "&a✓ World '<name>' created successfully! (Took <time> seconds)"
+    grief-prevention: "&7Grief prevention is enabled for this world."
+    teleport-hint: "&7Use &f/kuksoworlds tp <name>&7 to teleport to the new world."
+    failed: "&c✗ Failed to create world: <error>"
+    config-warning: "&cWarning: World was created but could not be saved to config.yml"
+
+  delete:
+    cannot-delete-fallback: "&cCannot delete the fallback world '<name>'."
+    fallback-not-loaded: "&cFallback world '<name>' is not loaded. Cannot relocate players."
+    unloaded: "&eWorld '<name>' unloaded. <count> player(s) relocated."
+    unload-failed: "&cFailed to unload world '<name>'. Aborting deletion."
+    not-loaded: "&eWorld '<name>' is not currently loaded. Proceeding with deletion."
+    folder-missing: "&cWorld folder '<name>' does not exist on disk."
+    config-removed: "&eRemoved world '<name>' from configuration."
+    config-missing: "&cWorld '<name>' not found in configuration."
+    recycle-conflict: "&cAn unexpected conflict occurred in the recycle bin. Trying alternative method..."
+    moved-recycle: "&aWorld folder '<name>' has been moved to recycle bin."
+    removed-complete: "&aWorld '<name>' has been completely removed from the system."
+    config-missing-note: "&eNote: World was deleted but was not found in configuration."
+    failed: "&cFailed to delete world folder '<name>': <error>"
+    recycle-warning: "&e⚠ Your recycle bin contains <count> deleted worlds. Consider emptying it to save disk space."
+    recycle-location: "&7The recycle bin is located at: <path>"
+
+  list:
+    no-worlds: "&eNo worlds registered in config."
+    header: "&6Registered worlds:"
+    entry: "&7- <name> (<status>)"
+    status-loaded: "&aLOADED"
+    status-unloaded: "&cUNLOADED"
+
+  load:
+    already-loaded: "&eWorld '<name>' is already loaded."
+    success: "&aWorld '<name>' has been loaded."
+    not-found: "&cWorld '<name>' not found in config."
+
+  recycle:
+    empty: "&eRecycle bin is empty."
+    header: "&6&lRecycle Bin Contents &7(<count> items):"
+    world-entry: "&e&l<name> &7(<count> <version>, <size>)"
+    version-entry: "  &7<index>. &fDeleted on: &7<date> &8(<size>)"
+    total-size: "&7Total size: &f<size>"
+    hint-empty: "&8&o(Use /kuksoworlds recyclebin empty to clear all)"
+    hint-restore: "&8&o(Use /kuksoworlds recyclebin restore <name> to restore a world)"
+    already-empty: "&eRecycle bin is already empty."
+    emptied: "&aRecycle bin emptied. Deleted <count> items."
+    delete-failed: "&cFailed to delete <name>: <error>"
+    restore-exists-loaded: "&cA world with name '<name>' is already loaded. Cannot restore."
+    restore-exists-folder: "&cA world folder named '<name>' already exists. Cannot restore."
+    not-found: "&cNo world named '<name>' found in the recycle bin."
+    restored: "&aWorld '<name>' has been restored from the recycle bin."
+    hint-load: "&7Use &f/kuksoworlds load <name>&7 to load it."
+    restore-failed: "&cFailed to restore world: <error>"
+    restored-version: "&7(Used the most recent version from <date>)"
+    config-added: "&7Added world to configuration with default settings."
+    config-hint: "&7(You may want to adjust its settings in config.yml)"
+
+  setspawn:
+    no-pending: "&cNo pending spawn to confirm."
+    success: "&a✔ Spawn point updated for world '<name>'."
+    confirm-header: "&eYou are about to change spawn of '<name>':"
+    confirm-old: "&7Old: x=<x>, y=<y>, z=<z>"
+    confirm-new: "&7New: x=<x>, y=<y>, z=<z>"
+    confirm-hint: "&eType '/kuksoworlds setspawn confirm' to apply."
+
+  teleport:
+    success: "&aTeleported to world: &e<name>"
+
+  unload:
+    not-loaded: "&eWorld '<name>' is not currently loaded."
+    success: "&eWorld '<name>' has been unloaded. <count> player(s) relocated to '<fallback>'."
+    failed: "&cFailed to unload world '<name>'."
+
+  version:
+    checking: "&e&oChecking &6&oKuksoWorlds &e&oplugin version, please wait..."
+    info: "&eThis server is running &6<name> &eversion &6<version> &eby &6<authors>&e. (Implementing KuksoLib version &6<version>&e)"

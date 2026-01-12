@@ -1,0 +1,97 @@
+# lang/tr.yml
+
+prefix: "&8[&bKuksoWorlds&8] &8» "
+
+general:
+  no-permission: "&cBu komutu kullanma izniniz yok."
+  only-players: "&cBu komutu sadece oyuncular kullanabilir."
+  usage: "&cKullanım: <usage>"
+  world-not-found: "&c'<name>' dünyası yüklü değil."
+  unknown-subcommand: "&cBilinmeyen alt komut: <command>"
+  unexpected-error: "&cBeklenmedik bir hata oluştu: <error>"
+
+commands:
+  create:
+    exists: "&c'<name>' dünyası zaten var! Farklı bir isim seçin."
+    invalid-type: "&cGeçersiz dünya tipi. NORMAL, VOID, NETHER veya END kullanın."
+    invalid-border: "&cGeçersiz dünya sınırı değeri. Bir tam sayı olmalıdır (blok cinsinden)."
+    start: "&a'<name>' dünyası '<type>' tipiyle oluşturuluyor..."
+    wait: "&eBu işlem biraz zaman alabilir. Lütfen dünya oluşturulurken bekleyin..."
+    still-creating: "&e'<name>' dünyası hala oluşturuluyor... (<time>sn geçti)"
+    generating-structures: "&eDünya yapıları oluşturuluyor. Bu işlem birkaç saniye sürebilir..."
+    border-set: "&bDünya sınırı <size> blok yarıçapına ayarlandı."
+    success: "&a✓ '<name>' dünyası başarıyla oluşturuldu! (<time> saniye sürdü)"
+    grief-prevention: "&7Bu dünya için yapı koruması (grief prevention) etkinleştirildi."
+    teleport-hint: "&7Yeni dünyaya ışınlanmak için &f/kuksoworlds tp <name>&7 kullanın."
+    failed: "&c✗ Dünya oluşturulamadı: <error>"
+    config-warning: "&cUyarı: Dünya oluşturuldu ancak config.yml dosyasına kaydedilemedi"
+
+  delete:
+    cannot-delete-fallback: "&cVarsayılan dünya (fallback) '<name>' silinemez."
+    fallback-not-loaded: "&cVarsayılan dünya (fallback) '<name>' yüklü değil. Oyuncular taşınamaz."
+    unloaded: "&e'<name>' dünyası kaldırıldı. <count> oyuncu taşındı."
+    unload-failed: "&c'<name>' dünyası kaldırılamadı. Silme işlemi iptal ediliyor."
+    not-loaded: "&e'<name>' dünyası şu anda yüklü değil. Silme işlemine devam ediliyor."
+    folder-missing: "&c'<name>' dünya klasörü diskte bulunamadı."
+    config-removed: "&e'<name>' dünyası yapılandırmadan kaldırıldı."
+    config-missing: "&c'<name>' dünyası yapılandırmada bulunamadı."
+    recycle-conflict: "&cGeri dönüşüm kutusunda beklenmedik bir çakışma oluştu. Alternatif yöntem deneniyor..."
+    moved-recycle: "&a'<name>' dünya klasörü geri dönüşüm kutusuna taşındı."
+    removed-complete: "&a'<name>' dünyası sistemden tamamen kaldırıldı."
+    config-missing-note: "&eNot: Dünya silindi ancak yapılandırmada bulunamadı."
+    failed: "&c'<name>' dünya klasörü silinemedi: <error>"
+    recycle-warning: "&e⚠ Geri dönüşüm kutunuzda <count> silinmiş dünya var. Disk alanından tasarruf etmek için boşaltmayı düşünün."
+    recycle-location: "&7Geri dönüşüm kutusu konumu: <path>"
+
+  list:
+    no-worlds: "&eYapılandırmada kayıtlı dünya yok."
+    header: "&6Kayıtlı dünyalar:"
+    entry: "&7- <name> (<status>)"
+    status-loaded: "&aYÜKLÜ"
+    status-unloaded: "&cYÜKLÜ DEĞİL"
+
+  load:
+    already-loaded: "&e'<name>' dünyası zaten yüklü."
+    success: "&a'<name>' dünyası yüklendi."
+    not-found: "&c'<name>' dünyası yapılandırmada bulunamadı."
+
+  recycle:
+    empty: "&eGeri dönüşüm kutusu boş."
+    header: "&6&lGeri Dönüşüm Kutusu İçeriği &7(<count> öğe):"
+    world-entry: "&e&l<name> &7(<count> <version>, <size>)"
+    version-entry: "  &7<index>. &fSilinme tarihi: &7<date> &8(<size>)"
+    total-size: "&7Toplam boyut: &f<size>"
+    hint-empty: "&8&o(Tümünü temizlemek için /kuksoworlds recyclebin empty kullanın)"
+    hint-restore: "&8&o(Bir dünyayı geri yüklemek için /kuksoworlds recyclebin restore <name> kullanın)"
+    already-empty: "&eGeri dönüşüm kutusu zaten boş."
+    emptied: "&aGeri dönüşüm kutusu boşaltıldı. <count> öğe silindi."
+    delete-failed: "&c<name> silinemedi: <error>"
+    restore-exists-loaded: "&c'<name>' adında bir dünya zaten yüklü. Geri yüklenemez."
+    restore-exists-folder: "&c'<name>' adında bir dünya klasörü zaten mevcut. Geri yüklenemez."
+    not-found: "&cGeri dönüşüm kutusunda '<name>' adında bir dünya bulunamadı."
+    restored: "&a'<name>' dünyası geri dönüşüm kutusundan geri yüklendi."
+    hint-load: "&7Yüklemek için &f/kuksoworlds load <name>&7 kullanın."
+    restore-failed: "&cDünya geri yüklenemedi: <error>"
+    restored-version: "&7(<date> tarihli en son sürüm kullanıldı)"
+    config-added: "&7Dünya varsayılan ayarlarla yapılandırmaya eklendi."
+    config-hint: "&7(Ayarlarını config.yml üzerinden düzenlemek isteyebilirsiniz)"
+
+  setspawn:
+    no-pending: "&cOnay bekleyen bir doğuş noktası (spawn) yok."
+    success: "&a✔ '<name>' dünyası için doğuş noktası güncellendi."
+    confirm-header: "&e'<name>' dünyasının doğuş noktasını değiştirmek üzeresiniz:"
+    confirm-old: "&7Eski: x=<x>, y=<y>, z=<z>"
+    confirm-new: "&7Yeni: x=<x>, y=<y>, z=<z>"
+    confirm-hint: "&eUygulamak için '/kuksoworlds setspawn confirm' yazın."
+
+  teleport:
+    success: "&aDünyaya ışınlanıldı: &e<name>"
+
+  unload:
+    not-loaded: "&e'<name>' dünyası şu anda yüklü değil."
+    success: "&e'<name>' dünyası kaldırıldı. <count> oyuncu '<fallback>' dünyasına taşındı."
+    failed: "&c'<name>' dünyası kaldırılamadı."
+
+  version:
+    checking: "&e&o&6&oKuksoWorlds &e&oeklenti sürümü kontrol ediliyor, lütfen bekleyin..."
+    info: "&eBu sunucu &6<name> &6<version> &esürümünü çalıştırıyor. Yapımcılar: &6<authors>&e. (&6<version>&e sürüm KuksoLib uygulanıyor)"
