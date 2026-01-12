@@ -1,5 +1,5 @@
-name: CubWorlds
-main: io.github.cublexlabs.cubworlds.Main
+name: KuksoWorlds
+main: com.kukso.mc.worlds.Main
 version: ${version}
 api-version: '1.21'
 load: POSTWORLD
@@ -7,25 +7,24 @@ authors: [ DevBD1 ]
 description: Lightweight custom world manager with essential features.
 website: https://labs.cublex.net
 depend:
-  - CublexCore
+  - KuksoLib
 softdepend:
-  - CubDialogs
   - PlaceholderAPI
 # You can manage each subcommand in config.yml
 commands:
-  cubworlds:
-    usage: /cubworlds <subcommand>
-    permission: cubworlds.command.root
-    description: CubWorld main command
-    aliases: [cw]
+  kuksoworlds:
+    usage: /kuksoworlds <subcommand>
+    permission: kuksoworlds.command.root
+    description: KuksoWorlds main command
+    aliases: [kw]
 # Permissions are dynamically set for each command in config.yml
 permissions:
-  cubworlds.admin:
+  kuksoworlds.admin:
     description: Allows high-level admin access to any command
     default: op
-  cubworlds.mod:
+  kuksoworlds.mod:
     description: Allows low-level access to some admin commands
-  cubworlds.user:
+  kuksoworlds.user:
     description: Allows access to user commands
-  cubworlds.command.root:
+  kuksoworlds.command.root:
     description: Use it with specific perm(s) of a subcommand

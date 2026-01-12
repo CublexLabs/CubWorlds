@@ -1,8 +1,8 @@
-# CubWorlds
-A modern, lightweight world management plugin. Designed as a streamlined alternative to heavier systems, LiteWorlds gives you full control over custom worlds with minimal setup and great performance.
+# KuksoWorlds
+A modern, lightweight world management plugin. Designed as a streamlined alternative to heavier systems, KuksoWorlds gives you full control over custom worlds with minimal setup and great performance.
 
 #### 🧾 Example config.yml
-```
+```yaml
 fallback-world: world_spawn
 worlds:
 - name: world_spawn
@@ -24,38 +24,38 @@ commands:
     aliases:
     - ver
     permissions:
-    - CubWorlds.admin.*
+    - kuksoworlds.admin.*
   reload:
     aliases:
     - rl
     permissions:
-    - CubWorlds.admin.*
+    - kuksoworlds.admin.*
   create:
     aliases:
     - cr
     permissions:
-    - CubWorlds.admin.*.*
+    - kuksoworlds.admin.*
   delete:
     aliases:
     - del
     permissions:
-    - CubWorlds.admin.*.*
+    - kuksoworlds.admin.*
   list:
     aliases:
     - ls
     permissions:
-    - CubWorlds.admin.*.*
+    - kuksoworlds.admin.*
   load:
     permissions:
-    - CubWorlds.admin.*.*
+    - kuksoworlds.admin.*
   unload:
     permissions:
-    - CubWorlds.admin.*.*
+    - kuksoworlds.admin.*
   teleport:
     aliases:
     - tp
     permissions:
-    - CubWorlds.admin.*
+    - kuksoworlds.admin.*
 ```
 
 🔗 Download the JAR, drop it in /plugins, and configure via config.yml. Restart or hot-load your worlds — it just works. Let us know what you build with it!

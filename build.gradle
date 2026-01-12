@@ -3,7 +3,7 @@ plugins {
     id("xyz.jpenilla.run-paper") version "2.3.1"
 }
 
-group = 'io.github.cublexlabs'
+group = 'com.kukso.mc'
 
 def versionFile = file("version.txt")
 if (versionFile.exists()) {
@@ -12,7 +12,7 @@ if (versionFile.exists()) {
     versionFile.text = project.version?.toString() ?: "0.0.1"
     version = versionFile.text.trim()
 }
-println "[CubWorlds] Using project.version = ${version}"
+println "[KuksoWorlds] Using project.version = ${version}"
 
 repositories {
     mavenLocal()
@@ -28,14 +28,11 @@ repositories {
     maven {
         url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
     }
-//    maven {
-//        url = 'https://raw.githubusercontent.com/CublexLabs/maven-repo/main/'                                                                                                                                               │
-//    }
 }
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.21.4-R0.1-SNAPSHOT")
-    compileOnly("io.github.cublexlabs:CublexCore:2.0.0")
+    compileOnly("com.kukso.mc:kukso-mc-lib:2.0.0")
     compileOnly("org.jetbrains:annotations:24.0.1")
     compileOnly("me.clip:placeholderapi:2.11.6")
 }
@@ -74,7 +71,7 @@ processResources {
         expand(version: project.version.toString())
     }
     doFirst {
-        println "[CubDialogs] processResources expanding plugin.yml with version=${project.version}"
+        println "[KuksoWorlds] processResources expanding plugin.yml with version=${project.version}"
     }
 }
 
@@ -108,7 +105,7 @@ tasks.register("bumpVersion") {
         versionFile.text = newVersion
         // Keep current build consistent with bumped value
         project.version = newVersion
-        println "🔁 Version bumped: $currentVersion → $newVersion"
+        println "Version bumped: $currentVersion → $newVersion"
     }
 }
 

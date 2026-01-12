@@ -10,7 +10,7 @@ modules:
   pvp-handling: true
   custom-logger: true
 # World access permission format:
-# cubworlds.access.<world_name>
+# kuksoworlds.access.<world_name>
 worlds:
   - name: world_spawn # folder name of your custom world
     type: VOID # available types: VOID, NORMAL, NETHER, END
@@ -38,46 +38,46 @@ worlds:
 commands:
   create:
     permissions:
-      - cubworlds.command.create
-      - cubworlds.command.admin
+      - kuksoworlds.command.create
+      - kuksoworlds.command.admin
   delete:
     aliases: [del]
     permissions:
-      - cubworlds.command.delete
-      - cubworlds.command.admin
+      - kuksoworlds.command.delete
+      - kuksoworlds.command.admin
   list:
     aliases: [ls]
     permissions:
-      - cubworlds.command.list
-      - cubworlds.command.admin
+      - kuksoworlds.command.list
+      - kuksoworlds.command.admin
   load:
     permissions:
-      - cubworlds.command.load
-      - cubworlds.command.admin
+      - kuksoworlds.command.load
+      - kuksoworlds.command.admin
   recycle:
     permissions:
-      - cubworlds.command.recycle
-      - cubworlds.command.admin
+      - kuksoworlds.command.recycle
+      - kuksoworlds.command.admin
   reload:
     aliases: [rl]
     permissions:
-      - cubworlds.command.reload
-      - cubworlds.command.admin
+      - kuksoworlds.command.reload
+      - kuksoworlds.command.admin
   setspawn:
     permissions:
-      - cubworlds.command.setspawn
-      - cubworlds.command.admin
+      - kuksoworlds.command.setspawn
+      - kuksoworlds.command.admin
   teleport:
     aliases: [tp]
     permissions:
-      - cubworlds.command.teleport
-      - cubworlds.command.admin
+      - kuksoworlds.command.teleport
+      - kuksoworlds.command.admin
   unload:
     permissions:
-      - cubworlds.command.unload
-      - cubworlds.command.admin
+      - kuksoworlds.command.unload
+      - kuksoworlds.command.admin
   version:
     aliases: [ver]
     permissions:
-      - cubworlds.command.version
-      - cubworlds.command.admin
+      - kuksoworlds.command.version
+      - kuksoworlds.command.admin
